@@ -45,7 +45,7 @@ void * clientThread(void *arg){
     }
     printf("[+]Connected to server...\n");
 
-    f = fopen("SG.mp4", "rb");
+    f = fopen("tech.mp4", "rb");
     while(1){
         ssize_t  bytesRead = fread(buffer, 1, sizeof(buffer), f);
         if(bytesRead == 0) break;
