@@ -1,0 +1,3 @@
+/home/davepj007/CLionProjects/TEC Media File System - Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/davepj007/CLionProjects/TEC Media File System - Server/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/davepj007/CLionProjects/TEC Media File System - Server/cmake-build-debug/CMakeFiles/TEC_Media_File_System___Server.dir
