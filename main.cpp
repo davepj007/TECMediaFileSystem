@@ -1,6 +1,8 @@
 #include <iostream>
+#include "Client.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Client client;
+    client.connectCall();
     return 0;
 }

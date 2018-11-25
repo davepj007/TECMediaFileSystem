@@ -1,33 +1,17 @@
 //
 // Created by davepj007 on 16/11/18.
 //
+#include "Client.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <ctype.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string>
-#include <arpa/inet.h>
-
-FILE *f;
-int portNo;
+#define portNo 9898
 
 void error(const char *msg){
     perror(msg);
     exit(1);
 }
 
-void * clientThread(void *arg){
-    printf("In thread\n");
-    char buffer[255];
+void * Client::clientThread(void *arg){
+    std::ifstream f;
     int clientSocket;
     struct sockaddr_in serv_Addr;
     socklen_t addr_size;
@@ -39,35 +23,41 @@ void * clientThread(void *arg){
     serv_Addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     memset(serv_Addr.sin_zero, '\0', sizeof(serv_Addr.sin_zero));
 
+    std::ofstream jsonFile("/home/davepj007/CLionProjects/TEC Media File System/caso.json");
+    json_object* jsonObj = json_object_new_object();
+    json_object* jString = json_object_new_string("0");
+    json_object_object_add(jsonObj,"Caso", jString);
+    jsonFile << std::setw(4) << json_object_get_string(jsonObj) << std::endl;
+    jsonFile.close();
+
     addr_size = sizeof(serv_Addr);
     if(connect(clientSocket, (struct sockaddr *) &serv_Addr, addr_size) < 0) {
         error("[-]Connection Failed");
     }
     printf("[+]Connected to server...\n");
 
-    f = fopen("tech.mp4", "rb");
-    while(1){
-        ssize_t  bytesRead = fread(buffer, 1, sizeof(buffer), f);
-        if(bytesRead == 0) break;
-        if(send(clientSocket, buffer, bytesRead, 0) != bytesRead) {
-            perror("[-]Error on sending");
-            break;
+    f.open("caso.json", std::ios::binary);
+    f.seekg(0, std::ifstream::beg);
+    while(!f.eof()) {
+        char *buffer = new char[255];
+        int BytesSent = 0;
+        int BytesIndex = 0;
+        f.read(buffer, 255);
+        int BytesLeft = f.gcount();
+        while(BytesLeft != 0){
+            BytesSent = send(clientSocket, &buffer[BytesIndex], BytesLeft, 0);
+            BytesLeft -= BytesSent;
+            BytesIndex +=BytesSent;
         }
     }
-    printf("[+]The video has been succesfully sent.\n");
-
+    printf("[+]The JSON File has been succesfully sent.\n");
     close(clientSocket);
+    f.close();
+
     pthread_exit(NULL);
 }
 
-int main(int argc, char* argv[]){
-    if(argc < 2){
-        fprintf(stderr, "[-]Usage %s hostname port\n", argv[0]);
-        exit(1);
-    }
-
-    portNo = atoi(argv[1]);
-
+void Client::connectCall(){
     int i = 0;
     pthread_t tid[4];
     while(i < 1){
@@ -81,8 +71,6 @@ int main(int argc, char* argv[]){
     while(i < 1){
         pthread_join(tid[i++], NULL);
     }
-    fclose(f);
-    return 0;
 
     /*int sockfd, portNo;
     struct sockaddr_in serv_addr;
