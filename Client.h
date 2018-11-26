@@ -21,15 +21,13 @@
 #include <arpa/inet.h>
 #include <fstream>
 #include <iomanip>
-#include <json-c/json.h>
-#include "../json-c/json.h"
+#include "nlohmann/json.hpp"
 
 class Client{
 public:
-    std::string caso;
     Client();
-    void connectCall();
-    static void *clientThread(void*args);
+    void error(const char *msg);
+    void connectCall(int caso, std::string path);
 
 };
 
