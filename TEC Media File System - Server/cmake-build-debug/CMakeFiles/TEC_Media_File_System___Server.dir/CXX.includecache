@@ -1,0 +1,52 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/davepj007/CLionProjects/TEC Media File System - Server/Server.cpp
+Server.h
+/home/davepj007/CLionProjects/TEC Media File System - Server/Server.h
+
+/home/davepj007/CLionProjects/TEC Media File System - Server/Server.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+sys/time.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+fcntl.h
+-
+wait.h
+-
+string
+-
+fstream
+-
+iostream
+-
+sstream
+-
+../json-c/json.h
+/home/davepj007/CLionProjects/json-c/json.h
+
+/home/davepj007/CLionProjects/TEC Media File System - Server/main.cpp
+Server.h
+/home/davepj007/CLionProjects/TEC Media File System - Server/Server.h
+iostream
+-
+
